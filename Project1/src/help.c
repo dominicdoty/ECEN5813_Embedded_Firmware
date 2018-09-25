@@ -19,8 +19,18 @@
 
 /* Function Definition */
 
+void help_welcome()
+{
+	printf("Welcome to Memory Tester\n");
+	printf("For command list type 'help'\n");
+}
+
 int8_t help()
 {
-	printf("help demo \n");
+	printf("Commands:\n");
+	for (int i = 0; i < command_quantity; i++)
+	{
+		printf("%s - %s\n", command_human[i], command_help[i]);
+	}
 	return 1;
 }

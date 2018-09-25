@@ -12,6 +12,7 @@
 
 #include <stdio.h>
 #include <stdint.h>
+#include "commandtable.h"
 
 /* Defines */
 
@@ -20,6 +21,8 @@
 
 
 /* Function Prototypes */
+
+void help_welcome();
 
 int8_t help();
 

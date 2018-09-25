@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "help.h"
+#include "commandtable.h"
 
 
 /* Defines */
@@ -28,6 +29,12 @@
 /* Main */
 int main()
 {
-	printf("testing\n");
-	help();
+	help_welcome();
+
+	while(1)
+	{
+		//io_get();
+		//io_parse();
+		//command_table_execute();
+	}
 }

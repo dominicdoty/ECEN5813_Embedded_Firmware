@@ -1,3 +1,7 @@
+# Heavily Influenced by below for automatically indexing/adding .c and .h files
+# https://hiltmon.com/blog/2013/07/03/a-simple-c-plus-plus-project-structure/
+#
+
 CC := gcc
 CFLAGS := -Wall
 SRCPATH := src
