@@ -10,8 +10,10 @@
 /* Includes */
 #include <stdio.h>
 #include <stdint.h>
+#include "end.h"
 #include "help.h"
 #include "commandtable.h"
+#include "io.h"
 
 
 /* Defines */
@@ -29,15 +31,18 @@
 /* Main */
 int main()
 {
-	command_table_init(1);
+	command_table_init(2);
 	add_command("help", "returns list of available commands and their function", help);
+	add_command("exit", "exits the program, all is lost", end);
 
 	help_welcome();
 
 	while(1)
 	{
-		io_get();
-		//io_parse();
-		//command_table_execute();
+		struct io result = io_get();
+		if(result.command != -1)
+		{
+			command_table[result.command](result.arg1, result.arg2);
+		}
 	}
 }

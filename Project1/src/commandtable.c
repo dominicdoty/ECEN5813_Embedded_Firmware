@@ -30,7 +30,7 @@ int8_t command_table_init(uint8_t num_of_commands)
 	//catch double initialization
 	if(command_quantity) 
 	{
-		printf("Command Table Double Inititialization\r\n");
+		printf("Command Table Double Inititialization\n");
 		return -1;
 	}
 
@@ -40,7 +40,7 @@ int8_t command_table_init(uint8_t num_of_commands)
 	command_human = (char**)malloc(command_quantity * sizeof(char*));
 	if(!command_human)
 	{
-		printf("Command Table Initialization, Human Readable Array\r\n");
+		printf("Command Table Initialization, Human Readable Array\n");
 		return -1;
 	}
 
@@ -48,7 +48,7 @@ int8_t command_table_init(uint8_t num_of_commands)
 	command_help = (char**)malloc(command_quantity * sizeof(char*));
 	if(!command_help)
 	{
-		printf("Command Table Initialization, Help Messages\r\n");
+		printf("Command Table Initialization, Help Messages\n");
 		return -1;
 	}
 
@@ -56,7 +56,7 @@ int8_t command_table_init(uint8_t num_of_commands)
 	command_table = (command_proto*)malloc(command_quantity * sizeof(command_proto*));
 	if(!command_table)
 	{
-		printf("Command Table Initialization, Function Pointer Array\r\n");
+		printf("Command Table Initialization, Function Pointer Array\n");
 		return -1;
 	}
 
@@ -69,7 +69,7 @@ int8_t add_command(char* human_name, char* help_msg, command_proto func_pointer)
 	//catch too many functions added to table
 	if(command_table_index > (command_quantity-1)) 
 	{
-		printf("More Commands Initialized Than Table Size\r\n");
+		printf("More Commands Initialized Than Table Size\n");
 		return -1;
 	}
 

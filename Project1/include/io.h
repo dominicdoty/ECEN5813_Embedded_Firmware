@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
+#include "commandtable.h"
 
 
 /* Defines */
@@ -20,7 +21,7 @@
 /* Global Variables */
 struct io
 {
-	uint8_t command;
+	int8_t command;
 	uint32_t arg1;
 	uint32_t arg2;
 };
@@ -31,6 +32,6 @@ struct io io_get();
 
 uint32_t string_hex(char* string);
 
-uint32_t power(uint32_t base, uint32_t exponent)
+uint32_t power(uint32_t base, uint32_t exponent);
 
 #endif //IO_H
