@@ -29,5 +29,8 @@ struct io
 /* Global Function Prototypes */
 struct io io_get();
 
+uint32_t string_hex(char* string);
+
+uint32_t power(uint32_t base, uint32_t exponent)
 
 #endif //IO_H

@@ -36,7 +36,7 @@ int main()
 
 	while(1)
 	{
-		//io_get();
+		io_get();
 		//io_parse();
 		//command_table_execute();
 	}
