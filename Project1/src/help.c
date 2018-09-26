@@ -21,16 +21,16 @@
 
 void help_welcome()
 {
-	printf("Welcome to Memory Tester\n");
-	printf("For command list type 'help'\n");
+	printf("Welcome to Memory Tester\r\n");
+	printf("For command list type 'help'\r\n");
 }
 
-int8_t help()
+int8_t help(uint32_t disregard, uint32_t disregard2)
 {
-	printf("Commands:\n");
+	printf("Commands:\r\n");
 	for (int i = 0; i < command_quantity; i++)
 	{
-		printf("%s - %s\n", command_human[i], command_help[i]);
+		printf("%s - %s\r\n", command_human[i], command_help[i]);
 	}
 	return 1;
 }

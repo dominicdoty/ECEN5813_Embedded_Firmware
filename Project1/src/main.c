@@ -29,6 +29,9 @@
 /* Main */
 int main()
 {
+	command_table_init(1);
+	add_command("help", "returns list of available commands and their function", help);
+
 	help_welcome();
 
 	while(1)
