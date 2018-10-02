@@ -29,7 +29,7 @@ int8_t dealloc(char* ignore)
 	}
 	else
 	{
-		printf("No memory allocated\n\n");
+		printf("No memory allocated to free, use 'allocate' first\n\n");
 		return -1;
 	}
 

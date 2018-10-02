@@ -43,6 +43,6 @@ int8_t allocate(char* args)
 	}
 
 	block_size = qty_words;
-	printf("Allocated a block starting at address %lX, %d uint32's long\n\n",(uint64_t)block_ptr, block_size);
+	printf("Allocated a block starting at address 0x%016lX, %d uint32's long\n\n",(uint64_t)block_ptr, block_size);
 	return 1;
 }

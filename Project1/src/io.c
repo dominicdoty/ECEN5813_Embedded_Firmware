@@ -76,7 +76,6 @@ void io_parse(char* arg_string, uint8_t arg_qty, ...)
 {
 	va_list arg_ptr;
 	va_start(arg_ptr, arg_qty);
-	char* temp_args = arg_string;
 	uint8_t arg_end = 0;
 
 	while(arg_qty > 0)
@@ -86,33 +85,32 @@ void io_parse(char* arg_string, uint8_t arg_qty, ...)
 
 		// Loop through the arg_string to get the first arg
 		arg_end = 0;
-		while(!((temp_args[arg_end] == 0x20) || (temp_args[arg_end] == 0x0A)))
+		while(!((arg_string[arg_end] == 0x20) || (arg_string[arg_end] == 0x0A)))
 		{
 			arg_end++;
 			if(arg_end > MAX_INPUT_LENGTH)
 			{
-				printf("Supplied arguments are not correct, refer to help\n\n");
 				return;
 			}
 		}
 		// Drop a null in
-		temp_args[arg_end] = 0;
+		arg_string[arg_end] = 0;
 		// Turn the first arg into a number and put it in the variable
-		*var_ptr = string_num(temp_args);
+		*var_ptr = string_num(arg_string);
 		// Move the string pointer down to the next part of the list
-		temp_args = &temp_args[arg_end + 1];
+		arg_string = &arg_string[arg_end + 1];
 		arg_qty--;
 	}
 
-	if(temp_args[0] != 0)
+	if(arg_string[0] != 0)
 	{
 		printf("More arguments supplied than required, ignoring extras\n\n");
 	}
 }
 
-uint32_t string_num(char* string)
+uint64_t string_num(char* string)
 {
-	uint32_t result = 0;
+	uint64_t result = 0;
 
 	//determine if its hex or decimal and call the appropriate func
 	if((string[0] == '0') && ((string[1] == 'x')||(string[1] == 'X')))
@@ -126,15 +124,15 @@ uint32_t string_num(char* string)
 	return result;
 }
 
-uint32_t string_dec(char* string)
+uint64_t string_dec(char* string)
 {
 	uint8_t length = strlen(string);
-	uint32_t result = 0;
+	uint64_t result = 0;
 	for(int8_t i = length - 1; i >= 0; i--)
 	{
 		if(string[i] < 0x30 || string[i] > 0x39)
 		{
-			printf("Argument '%s' was not valid decimal\n\n",string);
+			printf("Argument '%s' was not valid decimal. If you wanted hex, prepend with '0x'\n\n",string);
 			return 0;
 		}
 		result += ((uint8_t)(string[i] - 0x30))*power(10,length -1 - i);
@@ -142,77 +140,44 @@ uint32_t string_dec(char* string)
 	return result;
 }
 
-uint32_t string_hex(char* string)
+uint64_t string_hex(char* string)
 {
 	uint8_t length = strlen(string);
-	uint32_t result = 0;
+	uint64_t result = 0;
+	uint8_t value = 0;
 
 	for(int8_t i = length - 1; i >= 0; i--)
 	{
-		switch (string[i])
+		// Number between 0 and 9, convert to number
+		if((string[i] >= 0x30) && (string[i] <= 0x39))
 		{
-			case 0:
-				result = 0;
-				break;
-			case 0x30:
-				break;
-			case 0x31:
-				result += 1*power(16,length -1 - i);
-				break;
-			case 0x32:
-				result += 2*power(16,length -1 - i);
-				break;
-			case 0x33:
-				result += 3*power(16,length -1 - i);
-				break;
-			case 0x34:
-				result += 4*power(16,length -1 - i);
-				break;
-			case 0x35:
-				result += 5*power(16,length -1 - i);
-				break;
-			case 0x36:
-				result += 6*power(16,length -1 - i);
-				break;
-			case 0x37:
-				result += 7*power(16,length -1 - i);
-				break;
-			case 0x38:
-				result += 8*power(16,length -1 - i);
-				break;
-			case 0x39:
-				result += 9*power(16,length -1 - i);
-				break;
-			case 0x41:
-				result += 10*power(16,length -1 - i);
-				break;
-			case 0x42:
-				result += 11*power(16,length -1 - i);
-				break;
-			case 0x43:
-				result += 12*power(16,length -1 - i);
-				break;
-			case 0x44:
-				result += 13*power(16,length -1 - i);
-				break;
-			case 0x45:
-				result += 14*power(16,length -1 - i);
-				break;
-			case 0x46:
-				result += 15*power(16,length -1 - i);
-				break;
-			default:
-				printf("Argument '%s' was not valid hex\n\n",string);
-				return 0;
+			value = (uint8_t)string[i] - 0x30;
 		}
+		// Number between A and F, convert to 10-15
+		else if((string[i] >= 0x41) && (string[i] <= 0x46))
+		{
+			value = ((uint8_t)string[i]) - 0x37;
+		}
+		// Number between a and f, convert to 10-15
+		else if((string[i] >= 0x61) && (string[i] <= 0x66))
+		{
+			value = ((uint8_t)string[i]) - 0x57;
+		}
+		// Invalid character for hex
+		else
+		{
+			printf("Argument '%s' was not valid hex. Remember hex must be prepended with '0x'\n\n",string);
+			return 0;
+		}
+		result += value*power(16,length -1 - i);
 	}
 	return result;
 }
 
 // General integer exponentiation. probably moving to separate lib
-uint32_t power(uint32_t base, uint32_t exponent)
+uint64_t power(uint32_t base, uint32_t exponent)
 {
-	uint32_t result = 1;
+	uint64_t result = 1;
 	for(uint8_t i = 0; i < exponent; i++)
 	{
 		result *= base;
