@@ -10,10 +10,12 @@
 /* Includes */
 #include <stdio.h>
 #include <stdint.h>
-#include "end.h"
-#include "help.h"
 #include "commandtable.h"
 #include "io.h"
+#include "help.h"
+#include "end.h"
+#include "allocate.h"
+#include "dealloc.h"
 
 
 /* Defines */
@@ -25,15 +27,17 @@
 
 
 /* Global Variables */
-
-
+uint32_t* block_ptr = NULL;
+uint32_t block_size = 0;
 
 /* Main */
 int main()
 {
-	command_table_init(2);
-	add_command("help", "returns list of available commands and their function", help);
-	add_command("exit", "exits the program, all is lost", end);
+	command_table_init(4);
+	add_command("help", "returns list of available commands and their function, no arguments", help);
+	add_command("exit", "exits the program, all is lost, no arguments", end);
+	add_command("allocate", "allocates a block of memory, argument is number of 32 bit words to allocate\n\t in decimal or hex (0x prepend)", allocate);
+	add_command("free", "frees the currently allocated block of memory, no arguments", dealloc);
 
 	help_welcome();
 

@@ -13,7 +13,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "io.h"
 
 /* Defines */
 typedef int8_t (*command_proto)(uint32_t, uint32_t);

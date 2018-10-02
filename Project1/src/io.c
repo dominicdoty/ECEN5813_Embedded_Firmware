@@ -72,8 +72,8 @@ struct io io_get()
 	}
 
 	// Turn the tokens into useful info
-	output.arg1 = string_hex(tokens[1]);
-	output.arg2 = string_hex(tokens[2]);
+	output.arg1 = string_num(tokens[1]);
+	output.arg2 = string_num(tokens[2]);
 
 	// Turn the command token into a command index #
 	output.command = -1;
@@ -95,6 +95,38 @@ struct io io_get()
 	}
 
 	return output;
+}
+
+uint32_t string_num(char* string)
+{
+	uint32_t result = 0;
+
+	//determine if its hex or decimal and call the appropriate func
+	if((string[0] == '0') && ((string[1] == 'x')||(string[1] == 'X')))
+	{
+		result = string_hex(&string[2]);
+	}
+	else
+	{
+		result = string_dec(string);
+	}
+	return result;
+}
+
+uint32_t string_dec(char* string)
+{
+	uint8_t length = strlen(string);
+	uint32_t result = 0;
+	for(int8_t i = length - 1; i >= 0; i--)
+	{
+		if(string[i] < 0x30 || string[i] > 0x39)
+		{
+			printf("Argument '%s' was not valid decimal\n\n",string);
+			return 0;
+		}
+		result += ((uint8_t)(string[i] - 0x30))*power(10,length -1 - i);
+	}
+	return result;
 }
 
 uint32_t string_hex(char* string)
@@ -158,8 +190,7 @@ uint32_t string_hex(char* string)
 				break;
 			default:
 				printf("Argument '%s' was not valid hex\n\n",string);
-				result = 0;
-				return result;
+				return 0;
 		}
 	}
 	return result;
