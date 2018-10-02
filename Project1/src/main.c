@@ -43,10 +43,11 @@ int main()
 
 	while(1)
 	{
-		struct io result = io_get();
+		printf(">>");
+		struct io result = cmd_get();
 		if(result.command != -1)
 		{
-			command_table[result.command](result.arg1, result.arg2);
+			command_table[result.command](result.args);
 		}
 	}
 }

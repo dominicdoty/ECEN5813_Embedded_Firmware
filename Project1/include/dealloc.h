@@ -21,6 +21,6 @@ extern uint32_t* block_ptr;
 extern uint32_t block_size;
 
 /* Global Function Prototypes */
-int8_t dealloc(uint32_t unused, uint32_t ignore);
+int8_t dealloc(char* ignore);
 
 #endif //FREE_H

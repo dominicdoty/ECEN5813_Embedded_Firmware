@@ -18,10 +18,9 @@
 
 
 /* Function Definition */
-struct io io_get()
+struct io cmd_get()
 {
-	// Define io_get so we can dump out nulls at any error later
-	struct io output = {0, 0, 0};
+	struct io output;
 
 	// Declare and take in input
 	char input[MAX_INPUT_LENGTH];
@@ -36,54 +35,30 @@ struct io io_get()
 		return output;
 	}
 
-	// Split the input into tokens
-	char tokens[3][16];
-	tokens[0][0] = 0;
-	tokens[1][0] = 0;
-	tokens[2][0] = 0;
-	int8_t last_null = -1;
-	int8_t j = 0;
-	for(int8_t i = 0; i < MAX_INPUT_LENGTH; i++)
-	{
-		if(j > 2){break;} 
+	// Split the input into command and args (splits at first space)
+	char token[MAX_INPUT_LENGTH];
+	token[0] = 0;
 
-		if(input[i] == 0xA)
+	for(uint8_t i = 0; i < MAX_INPUT_LENGTH; i++)
+	{
+		if((input[i] == 0x20) || (input[i] == 0x0A))
 		{
 			input[i] = 0;
-			strcpy(tokens[j],&input[last_null + 1]);
+			strcpy(&token[0],&input[0]);
+			strcpy(output.args,&input[i+1]);
 			break;
 		}
-
-		if(input[i] == 0x20)
-		{
-			if(input[i-1] != 0)
-			{
-				input[i] = 0;
-				strcpy(tokens[j],&input[last_null + 1]);
-				last_null = i;
-				j++;
-			}
-			else
-			{
-				input[i] = 0;
-				last_null = i;
-			}
-		}
 	}
-
-	// Turn the tokens into useful info
-	output.arg1 = string_num(tokens[1]);
-	output.arg2 = string_num(tokens[2]);
 
 	// Turn the command token into a command index #
 	output.command = -1;
 	for(int8_t command_index = 0; command_index < command_quantity; command_index++)
 	{
 		uint8_t char_index = 0;
-		while(tokens[0][char_index] == command_human[command_index][char_index])
+		while(token[char_index] == command_human[command_index][char_index])
 		{
 			char_index++;
-			if((tokens[0][char_index] == 0) && (command_human[command_index][char_index] == 0))
+			if((token[char_index] == 0) && (command_human[command_index][char_index] == 0))
 			{
 				output.command = command_index;
 			}
@@ -95,6 +70,44 @@ struct io io_get()
 	}
 
 	return output;
+}
+
+void io_parse(char* arg_string, uint8_t arg_qty, ...)
+{
+	va_list arg_ptr;
+	va_start(arg_ptr, arg_qty);
+	char* temp_args = arg_string;
+	uint8_t arg_end = 0;
+
+	while(arg_qty > 0)
+	{
+		// Take in the pointer to the variable
+		uint64_t* var_ptr = va_arg(arg_ptr, uint64_t*);
+
+		// Loop through the arg_string to get the first arg
+		arg_end = 0;
+		while(!((temp_args[arg_end] == 0x20) || (temp_args[arg_end] == 0x0A)))
+		{
+			arg_end++;
+			if(arg_end > MAX_INPUT_LENGTH)
+			{
+				printf("Supplied arguments are not correct, refer to help\n\n");
+				return;
+			}
+		}
+		// Drop a null in
+		temp_args[arg_end] = 0;
+		// Turn the first arg into a number and put it in the variable
+		*var_ptr = string_num(temp_args);
+		// Move the string pointer down to the next part of the list
+		temp_args = &temp_args[arg_end + 1];
+		arg_qty--;
+	}
+
+	if(temp_args[0] != 0)
+	{
+		printf("More arguments supplied than required, ignoring extras\n\n");
+	}
 }
 
 uint32_t string_num(char* string)

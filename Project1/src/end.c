@@ -19,7 +19,7 @@
 
 /* Function Definition */
 
-int8_t end(uint32_t nonsense, uint32_t sense)
+int8_t end(char* ignore)
 {
 	exit(1);
 }

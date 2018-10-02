@@ -17,8 +17,17 @@
 
 
 /* Function Definition */
-int8_t allocate(uint32_t qty_words, uint32_t ignore)
+int8_t allocate(char* args)
 {
+	uint64_t qty_words = 0;
+	io_parse(args, 1, &qty_words);
+
+	if(qty_words == 0)
+	{
+		printf("Cannot allocate 0 words\n\n");
+		return -1;
+	}
+
 	if(block_ptr != NULL)
 	{
 		printf("Memory has already been allocated. Please free before allocating again\n\n");
@@ -34,6 +43,6 @@ int8_t allocate(uint32_t qty_words, uint32_t ignore)
 	}
 
 	block_size = qty_words;
-	printf("Allocated a block starting at address %X, %d uint32's long\n\n",block_ptr, block_size);
+	printf("Allocated a block starting at address %lX, %d uint32's long\n\n",(uint64_t)block_ptr, block_size);
 	return 1;
 }

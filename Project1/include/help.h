@@ -24,6 +24,6 @@
 
 void help_welcome();
 
-int8_t help(uint32_t disregard, uint32_t disregard2);
+int8_t help(char* ignore);
 
 #endif //HELP_H

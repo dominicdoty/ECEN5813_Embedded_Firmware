@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
+#include <stdarg.h>
 #include "commandtable.h"
 
 
@@ -22,13 +23,14 @@
 struct io
 {
 	int8_t command;
-	uint32_t arg1;
-	uint32_t arg2;
+	char args[MAX_INPUT_LENGTH];
 };
 
 
 /* Global Function Prototypes */
-struct io io_get();
+struct io cmd_get();
+
+void io_parse(char* arg_string, uint8_t arg_qty, ...);
 
 uint32_t string_num(char* string);
 

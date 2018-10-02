@@ -17,11 +17,20 @@
 
 
 /* Function Definition */
-int8_t dealloc(uint32_t unused, uint32_t ignore)
+int8_t dealloc(char* ignore)
 {
-	free(block_ptr);
-	block_ptr = NULL;
-	block_size = 0;
-	printf("Block Freed\n\n");
-	return 1;
+	if(block_ptr != NULL)
+	{
+		free(block_ptr);
+		block_ptr = NULL;
+		block_size = 0;
+		printf("Block freed\n\n");
+		return 1;
+	}
+	else
+	{
+		printf("No memory allocated\n\n");
+		return -1;
+	}
+
 }

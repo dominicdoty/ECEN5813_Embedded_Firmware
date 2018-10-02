@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include "io.h"
 
 /* Defines */
 
@@ -21,6 +22,6 @@ extern uint32_t* block_ptr;
 extern uint32_t block_size;
 
 /* Global Function Prototypes */
-int8_t allocate(uint32_t qty_words, uint32_t ignore);
+int8_t allocate(char* args);
 
 #endif //ALLOCATE_H

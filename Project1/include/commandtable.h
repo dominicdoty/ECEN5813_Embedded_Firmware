@@ -15,7 +15,7 @@
 #include <stdlib.h>
 
 /* Defines */
-typedef int8_t (*command_proto)(uint32_t, uint32_t);
+typedef int8_t (*command_proto)(char*);
 
 /* Global Variables */
 extern char** command_human;
