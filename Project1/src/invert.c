@@ -1,11 +1,11 @@
 /*
- * display.c
- * @brief function to display a memory location
+ * invert.c
+ * @brief inverts a memory range
  * @author D.Doty
 */
 
 /* Includes */
-#include "display.h"
+#include "invert.h"
 
 /* Defines */
 
@@ -17,12 +17,12 @@
 
 
 /* Function Definition */
-int8_t display(char* args)
+int8_t invert(char* args)
 {
 	// Ignore if no memory allocated
 	if(block_ptr == NULL)
 	{
-		printf("No memory allocated to display, use 'allocate' first\n\n");
+		printf("No memory allocated to invert, use 'allocate' first\n\n");
 		return -1;
 	}
 
@@ -38,15 +38,15 @@ int8_t display(char* args)
 		return -1;
 	}
 
-	// Display
-	printf("Word#\tAddress\t\t\tContents Hex\tContents Decimal\n");
-	for(uint8_t i = 0; i < word_qty*sizeof(uint32_t); i += sizeof(uint32_t))
+	// Invert
+	printf("Inverting...\n");
+	clock_t begin = clock();
+	for(uint64_t i = 0; i < word_qty*sizeof(uint32_t); i += sizeof(uint32_t))
 	{
-		printf("%lu\t0x%016lX\t0x%08X\t%u\n",i/sizeof(uint32_t),
-											address + i,
-											*((uint32_t*)(address + i)),
-											*((uint32_t*)(address + i)));
+		*((uint32_t*)address) ^= 0xFFFFFFFF;
 	}
-	printf("\n");
+	clock_t end = clock();
+	uint64_t execution_time = (1000000*(uint64_t)(end - begin))/CLOCKS_PER_SEC;
+	printf("Execution time: %lu uS\n\n",execution_time);
 	return 1;
 }

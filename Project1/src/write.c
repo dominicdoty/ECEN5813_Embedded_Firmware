@@ -32,7 +32,7 @@ int8_t write(char* args)
 	io_parse(args, 2, &address, &word);
 
 	// Check if inside allocated range
-	if((address < (uint64_t)block_ptr) || (address >= ((uint64_t)block_ptr + block_size*sizeof(uint32_t))))
+	if((address < (uint64_t)block_ptr) || (address > ((uint64_t)block_ptr + block_size*sizeof(uint32_t))))
 	{
 		printf("This will result in a write out of the allocated range, try again\n");
 		return -1;
@@ -42,6 +42,6 @@ int8_t write(char* args)
 	printf("Writing...\n");
 	printf("Address\t\t\tContents Hex\tContents Dec\n");
 	*((uint32_t*)address) = word;
-	printf("0x%016lX\t0x%08X\t%d\n\n", address, *((uint32_t*)address), *((uint32_t*)address));
+	printf("0x%016lX\t0x%08X\t%u\n\n", address, *((uint32_t*)address), *((uint32_t*)address));
 	return 1;
 }
