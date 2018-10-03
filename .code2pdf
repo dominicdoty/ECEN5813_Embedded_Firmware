@@ -1,0 +1,6 @@
+:directories:
+	- .git
+	- build
+:files:
+	- .gitignore
+	- P1_Memtester
