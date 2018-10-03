@@ -39,7 +39,7 @@ int8_t invert(char* args)
 	// Loop through specified address range inverting each entry
 	for(uint64_t i = 0; i < word_qty*sizeof(uint32_t); i += sizeof(uint32_t))
 	{
-		*((uint32_t*)address) ^= 0xFFFFFFFF;
+		*((uint32_t*)(address + i)) ^= 0xFFFFFFFF;
 	}
 
 	clock_t end = clock();

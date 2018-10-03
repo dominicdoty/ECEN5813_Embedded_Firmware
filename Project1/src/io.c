@@ -33,6 +33,9 @@ struct io cmd_get()
 	{
 		exit(1);
 	}
+
+	// Need to add something here that checks if we're testing and prints the input
+	// Since redirected input isn't shown in the terminal it can be confusing
 	printf("\n");
 
 	// Split the input into command and args (splits at first space or newline)

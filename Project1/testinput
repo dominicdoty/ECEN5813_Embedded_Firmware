@@ -1,0 +1,31 @@
+help
+display #address
+n
+write #address 0xFF
+n
+invert #address
+n
+prng #address
+n
+validate #address
+n
+allocate 0
+allocate 10
+allocate 10
+display #address 10
+write #address 0xFF00
+invert #address
+display #address
+prng #address 10
+validate #address 10
+write #address 0xFFFF
+validate #address 10
+prng #address 10 200
+display #address 10
+invert #address 10
+validate #address 10 200
+invert #address 10
+validate #address 10 200
+free
+free
+exit
