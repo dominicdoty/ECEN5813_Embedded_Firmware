@@ -1,0 +1,52 @@
+// Print help
+help
+
+// Verify everything fails when no memory is allocated
+// n says no to override question
+display #address
+n
+write #address 0xFF
+n
+invert #address
+n
+prng #address
+n
+validate #address
+
+// Allocation should fail with 0 argument
+allocate 0
+allocate 10
+// Allocating again should fail
+allocate 10
+
+// Test all functions in address range
+display #address 10
+// Write some stuff to the first slot
+write #address 0xFF00
+// Invert and display slot 1
+invert #address
+display #address
+// Generate PRN's for the whole range
+prng #address 10
+// Working validation
+validate #address 10
+// Write an address to force a failure
+write #address 0xFFFF
+validate #address 10
+// Fix the PRN, test with new seed
+prng #address 10 200
+// Double invert whole range
+display #address 10
+invert #address 10
+display #address 10
+invert #address 10
+validate #address 10 200
+// Free allocated block
+free
+// Double free should fail
+free
+// Exit
+exit
+// Test cases to add:
+// Showing all functions prompt for override when used out of range
+// Showing all functions work or fail appropriately with no arguments, or too many arguments

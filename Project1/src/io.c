@@ -25,10 +25,14 @@ struct io cmd_get()
 {
 	// Init output structure
 	struct io output;
+	output.command = -1;
 
 	// Declare and take in input
 	char input[MAX_INPUT_LENGTH];
-	fgets(input, MAX_INPUT_LENGTH, stdin);
+	if(!fgets(input, MAX_INPUT_LENGTH, stdin))
+	{
+		exit(1);
+	}
 	printf("\n");
 
 	// Split the input into command and args (splits at first space or newline)
@@ -50,8 +54,6 @@ struct io cmd_get()
 	}
 
 	// Turn the command token into a command index #
-	output.command = -1;
-
 	// Loop through the command table and compare table to input char by char for a match
 	for(int8_t command_index = 0; command_index < command_quantity; command_index++)
 	{
@@ -94,7 +96,6 @@ void io_parse(char* arg_string, uint8_t arg_qty, ...)
 		arg_end = 0;
 		while(!((arg_string[arg_end] == 0x20) || (arg_string[arg_end] == 0x0A)))
 		{
-			printf("char %c\n",arg_string[arg_end]);
 			arg_end++;
 			if(arg_end > MAX_INPUT_LENGTH)
 			{
@@ -103,8 +104,18 @@ void io_parse(char* arg_string, uint8_t arg_qty, ...)
 		}
 		// Drop a null in
 		arg_string[arg_end] = 0;
-		// Turn the first arg into a number and put it in the variable
-		*var_ptr = string_num(arg_string);
+		
+		// Check for #, indicates special argument
+		if(arg_string[0] == 0x23)
+		{
+			// Need to flesh this out into a whole function for different #'s
+			*var_ptr = (uint64_t)block_ptr;
+		}
+		else
+		{
+			// Turn the first arg into a number and put it in the variable
+			*var_ptr = string_num(arg_string);
+		}
 		// Move the string pointer down to the next part of the list
 		arg_string = &arg_string[arg_end + 1];
 		arg_qty--;

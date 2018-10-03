@@ -48,7 +48,7 @@ int main()
 	add_command("write", "writes provided 32 bit word to specified address,\n\t\targument is memory_address and 32bit word", write);
 	add_command("invert", "inverts contents at a specified address range,\n\t\targument is the memory_address and length of block to invert", invert);
 	add_command("prng", "writes pseudo random 32 bit words to specified address range,\n\t\targument is the memory_address, length of block to write, and prng seed", write_pattern);
-	add_command("validate", "validates pseudo random 32 bit words at specified address range,\n\t\targument is the memory_address, length of block to validate, and prng seed\n\t\tnote this won't work with a different starting address or seed. default seed is 1", validate_pattern);
+	add_command("validate", "validates pseudo random 32 bit words at specified address range,\n\t\targument is the memory_address, length of block to validate, and prng seed\n\t\tnote this won't work with a different starting address or seed. def seed is 1", validate_pattern);
 
 	// Print the welcome message
 	help_welcome();

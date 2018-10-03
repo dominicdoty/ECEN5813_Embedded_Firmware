@@ -26,4 +26,5 @@ $(BUILDPATH)/%.o:$(SRCPATH)/%.$(SRCEXT)
 clean:
 	$(RM) -r $(BUILDPATH) $(TARGET)
 
-#add automatic test compilation and execution here later
+test: $(TARGET)
+	bash testing_script

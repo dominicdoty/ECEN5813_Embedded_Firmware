@@ -1,0 +1,2 @@
+grep -o '^[^//]*' commented_testinput > testinput
+./P1_Memtester < testinput
