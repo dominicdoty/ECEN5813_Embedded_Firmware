@@ -19,23 +19,14 @@
 /* Function Definition */
 int8_t write(char* args)
 {
-	// Ignore if no memory allocated
-	if(block_ptr == NULL)
-	{
-		printf("No memory allocated to write, use 'allocate' first\n\n");
-		return -1;
-	}
-
 	// Parse arguments
 	uint64_t address = 0;
 	uint64_t word = 0;
 	io_parse(args, 2, &address, &word);
 
-	// Check if inside allocated range
-	if((address < (uint64_t)block_ptr) || (address > ((uint64_t)block_ptr + block_size*sizeof(uint32_t))))
+	if(valid_range(address, 1) != 0)
 	{
-		printf("This will result in a write out of the allocated range, try again\n");
-		return -1;
+		return 1;
 	}
 
 	// Write
@@ -43,5 +34,5 @@ int8_t write(char* args)
 	printf("Address\t\t\tContents Hex\tContents Dec\n");
 	*((uint32_t*)address) = word;
 	printf("0x%016lX\t0x%08X\t%u\n\n", address, *((uint32_t*)address), *((uint32_t*)address));
-	return 1;
+	return 0;
 }

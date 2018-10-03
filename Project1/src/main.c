@@ -54,7 +54,8 @@ int main()
 	while(1)
 	{
 		printf(">>");
-		struct io result = cmd_get();
+		struct io result = {-1, ""};
+		result = cmd_get();
 		if(result.command != -1)
 		{
 			command_table[result.command](result.args);

@@ -19,23 +19,15 @@
 /* Function Definition */
 int8_t display(char* args)
 {
-	// Ignore if no memory allocated
-	if(block_ptr == NULL)
-	{
-		printf("No memory allocated to display, use 'allocate' first\n\n");
-		return -1;
-	}
-
 	// Parse arguments
 	uint64_t address = 0;
 	uint64_t word_qty = 1;
 	io_parse(args, 2, &address, &word_qty);
 
-	// Check if inside allocated range
-	if((address < (uint64_t)block_ptr) || ((address + word_qty*sizeof(uint32_t)) > ((uint64_t)block_ptr + block_size*sizeof(uint32_t))))
+	// Check for valid inputs
+	if(valid_range(address, word_qty) != 0)
 	{
-		printf("This will result in a print out of the allocated range, try again\n");
-		return -1;
+		return 1;
 	}
 
 	// Display
@@ -48,5 +40,5 @@ int8_t display(char* args)
 											*((uint32_t*)(address + i)));
 	}
 	printf("\n");
-	return 1;
+	return 0;
 }

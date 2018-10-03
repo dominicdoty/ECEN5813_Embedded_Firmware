@@ -21,5 +21,5 @@
 
 int8_t end(char* ignore)
 {
-	exit(1);
+	exit(0);
 }

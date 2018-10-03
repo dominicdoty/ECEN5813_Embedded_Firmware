@@ -36,5 +36,5 @@ int8_t help(char* ignore)
 		printf("%-10s ->\t%s\n", command_human[i], command_help[i]);
 	}
 	printf("\n");
-	return 1;
+	return 0;
 }

@@ -26,6 +26,8 @@ struct io
 	char args[MAX_INPUT_LENGTH];
 };
 
+extern uint32_t* block_ptr;
+extern uint32_t block_size;
 
 /* Global Function Prototypes */
 struct io cmd_get();
@@ -39,5 +41,7 @@ uint64_t string_dec(char* string);
 uint64_t string_hex(char* string);
 
 uint64_t power(uint32_t base, uint32_t exponent);
+
+int8_t valid_range(uint64_t address, uint64_t word_qty);
 
 #endif //IO_H

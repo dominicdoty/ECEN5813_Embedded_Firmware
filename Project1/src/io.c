@@ -104,7 +104,7 @@ void io_parse(char* arg_string, uint8_t arg_qty, ...)
 
 	if(arg_string[0] != 0)
 	{
-		printf("More arguments supplied than required, ignoring extras\n\n");
+		printf("Too many args or trailing spaces, ignoring extras\n\n");
 	}
 }
 
@@ -183,4 +183,34 @@ uint64_t power(uint32_t base, uint32_t exponent)
 		result *= base;
 	}
 	return result;
+}
+
+int8_t valid_range(uint64_t address, uint64_t word_qty)
+{
+	char response[4] = "";
+
+	if(block_ptr == NULL)
+	{
+		printf("No memory allocated, Proceed? (y/n)\n");
+		fgets(response, 3, stdin);
+	}
+	else if((address < (uint64_t)block_ptr) || ((address + (word_qty - 1)*sizeof(uint32_t)) > ((uint64_t)block_ptr + (block_size - 1)*sizeof(uint32_t))))
+	{
+		printf("Attempting to access memory out of the allocated range, Proceed? (y/n)\n");
+		fgets(response, 3, stdin);
+	}
+
+	// Act according to response
+	if(response[0] == 0)
+	{
+		return 0;
+	}
+	else if((response[0] == 'y') || (response[0] == 'Y'))
+	{
+		return 0;
+	}
+	else
+	{
+		return 1;
+	}
 }
