@@ -24,19 +24,20 @@ uint8_t command_quantity = 0;
 
 
 /* Function Definition */
-
+// Creates tables to hold the user command names, help messages, and function pointers
 int8_t command_table_init(uint8_t num_of_commands)
 {
-	//catch double initialization
+	// Don't allow initialization if it's already been done
 	if(command_quantity) 
 	{
 		printf("ERROR:Command Table Double Inititialization\n");
 		return 1;
 	}
 
+	// Store size of table
 	command_quantity = num_of_commands;
 
-	//initialize the array of strings for human readable commands
+	// Allocate the array of strings for human readable commands
 	command_human = (char**)malloc(command_quantity * sizeof(char*));
 	if(!command_human)
 	{
@@ -44,7 +45,7 @@ int8_t command_table_init(uint8_t num_of_commands)
 		return 1;
 	}
 
-	//initialize the array of strings for command help messages
+	// Allocate the array of strings for command help messages
 	command_help = (char**)malloc(command_quantity * sizeof(char*));
 	if(!command_help)
 	{
@@ -52,7 +53,7 @@ int8_t command_table_init(uint8_t num_of_commands)
 		return 1;
 	}
 
-	//initialize the array of function pointers
+	// Allocate the array of function pointers
 	command_table = (command_proto*)malloc(command_quantity * sizeof(command_proto*));
 	if(!command_table)
 	{
@@ -63,10 +64,12 @@ int8_t command_table_init(uint8_t num_of_commands)
 	return 0;
 }
 
+// Adds a command to the table created with command_table_init
 int8_t add_command(char* human_name, char* help_msg, command_proto func_pointer)
 {
 	static uint8_t command_table_index = 0;
-	//catch too many functions added to table
+
+	// Catch too many functions added to table
 	if(command_table_index > (command_quantity-1)) 
 	{
 		printf("ERROR:More Commands Initialized Than Table Size\n");
@@ -78,14 +81,14 @@ int8_t add_command(char* human_name, char* help_msg, command_proto func_pointer)
 	strcpy(command_human[command_table_index], human_name);				//copy the fed name into the array
 
 	// Allocate and fill the Help Message array
-	command_help[command_table_index] = (char*)malloc(strlen(help_msg + 1));	//plus one for null termination
+	command_help[command_table_index] = (char*)malloc(strlen(help_msg + 1));	//plus one for null
 	strcpy(command_help[command_table_index], help_msg);				//copy the help message in
 
 	// Fill the function pointer in
-	command_table[command_table_index] = func_pointer;				//copy the func pointer into the table
+	command_table[command_table_index] = func_pointer;					//copy the func pointer into the table
 
 	// Index
-	command_table_index++;						//increment the table so it will fill the next slot next time
+	command_table_index++;	//increment the table so it will fill the next slot next time
 
 	return 0;
 }

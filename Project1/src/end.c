@@ -18,7 +18,6 @@
 
 
 /* Function Definition */
-
 int8_t end(char* ignore)
 {
 	exit(0);

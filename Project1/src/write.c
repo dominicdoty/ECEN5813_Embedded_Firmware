@@ -24,8 +24,11 @@ int8_t write(char* args)
 	uint64_t word = 0;
 	io_parse(args, 2, &address, &word);
 
+	// Check if the provided memory address and word quantity are in allocated block
+	// Get user confirmation to proceed if they're out of range
 	if(valid_range(address, 1) != 0)
 	{
+		// User has indicated they don't want to proceed. Returns to main for a new command
 		return 1;
 	}
 
