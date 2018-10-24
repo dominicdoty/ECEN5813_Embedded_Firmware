@@ -45,6 +45,6 @@ int8_t invert(char* args)
 	clock_t end = clock();
 	// Calculate execution time in uS to avoid floating point
 	uint64_t execution_time = (1000000*(uint64_t)(end - begin))/CLOCKS_PER_SEC;
-	printf("Execution time: %lu uS\n\n",execution_time);
+	printf("Execution time: %I64u uS\n\n",execution_time);
 	return 0;
 }

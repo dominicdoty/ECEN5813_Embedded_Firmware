@@ -47,6 +47,6 @@ int8_t write_pattern(char* args)
 	clock_t end = clock();
 	// Calculating execution time in uS to avoid floating point math
 	uint64_t execution_time = (1000000*(uint64_t)(end - begin))/CLOCKS_PER_SEC;
-	printf("Execution time: %lu uS\n\n",execution_time);
+	printf("Execution time: %I64u uS\n\n",execution_time);
 	return 0;
 }

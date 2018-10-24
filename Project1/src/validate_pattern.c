@@ -45,7 +45,7 @@ int8_t validate_pattern(char* args)
 		// If memory does not match PRNG, print that location
 		if(*((uint32_t*)(address + i)) != last)
 		{
-			printf("%lu\t0x%016lX\t0x%08X\t0x%08X\n",
+			printf("%I64u\t0x%016I64X\t0x%08I32X\t0x%08I32X\n",
 											i/sizeof(uint32_t),
 											address + i,
 											last,
@@ -58,6 +58,6 @@ int8_t validate_pattern(char* args)
 	clock_t end = clock();
 	// Calculate execution time in uS to avoid floating point
 	uint64_t execution_time = (1000000*(uint64_t)(end - begin))/CLOCKS_PER_SEC;
-	printf("\nExecution time: %lu uS\n\n",execution_time);
+	printf("\nExecution time: %I64u uS\n\n",execution_time);
 	return 0;
 }

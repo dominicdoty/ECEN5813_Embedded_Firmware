@@ -37,7 +37,7 @@ int8_t display(char* args)
 
 	for(uint8_t i = 0; i < word_qty*sizeof(uint32_t); i += sizeof(uint32_t))
 	{
-		printf("%lu\t0x%016lX\t0x%08X\t%u\n",
+		printf("%I64u\t0x%016I64X\t0x%08I32X\t%I32u\n",
 				i/sizeof(uint32_t),				// Block #
 				address + i,					// Address
 				*((uint32_t*)(address + i)),	// Address Contents Hex

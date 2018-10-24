@@ -36,6 +36,6 @@ int8_t write(char* args)
 	printf("Writing...\n");
 	printf("Address\t\t\tContents Hex\tContents Dec\n");
 	*((uint32_t*)address) = word;
-	printf("0x%016lX\t0x%08X\t%u\n\n", address, *((uint32_t*)address), *((uint32_t*)address));
+	printf("0x%016I64X\t0x%08I32X\t%I32u\n\n", address, *((uint32_t*)address), *((uint32_t*)address));
 	return 0;
 }
